@@ -1,0 +1,1349 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jurnal Aktivitas Fisik - PJOK</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            box-sizing: border-box;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .card-shadow {
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(79, 70, 229, 0.3);
+        }
+        .heart-beat {
+            animation: heartbeat 1.5s ease-in-out infinite;
+        }
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Header -->
+    <div class="gradient-bg text-white py-8">
+        <div class="container mx-auto px-4 text-center">
+            <div class="flex items-center justify-center mb-4">
+                <div class="w-12 h-12 mr-3 heart-beat text-4xl">💪</div>
+                <h1 class="text-4xl font-bold">Jurnal Aktivitas Fisik</h1>
+            </div>
+            <p class="text-lg opacity-90">PJOK SMP Negeri 20 Surakarta</p>
+            <p class="text-sm opacity-80">Guru Pengampu: Bapak Jujuk Arfianto, S.Pd., M.Pd</p>
+        </div>
+    </div>
+
+    <div class="container mx-auto px-4 py-8">
+        <!-- Profile Display -->
+        <div id="profileDisplay" class="bg-white rounded-xl p-6 card-shadow mb-8 max-w-4xl mx-auto">
+            <div class="flex items-center space-x-6">
+                <div class="w-20 h-20 rounded-full bg-gradient-to-br from-indigo-400 to-purple-500 flex items-center justify-center text-white text-2xl font-bold">
+                    <span id="profileInitials">?</span>
+                </div>
+                <div class="flex-1">
+                    <h3 id="displayName" class="text-xl font-bold text-gray-800">Lengkapi Profil Anda</h3>
+                    <p id="displayClass" class="text-gray-600">-</p>
+                    <div class="flex space-x-4 text-sm text-gray-500 mt-1">
+                        <span id="displayAge">Usia: -</span>
+                        <span id="displayRestingHR">Denyut Istirahat: -</span>
+                        <span id="displayMaxHR">Denyut Maksimum: -</span>
+                    </div>
+                </div>
+                <div class="text-right">
+                    <button onclick="showTab('profile')" class="text-indigo-600 hover:text-indigo-800 font-medium">
+                        ✏️ Edit Profil
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Motivational Quote -->
+        <div class="bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 text-white rounded-xl p-6 card-shadow mb-8 max-w-4xl mx-auto">
+            <div class="text-center">
+                <h3 class="text-lg font-bold mb-2">💪 Motivasi Hari Ini</h3>
+                <p id="motivationalQuote" class="text-lg italic">"Kesehatan adalah kekayaan yang sesungguhnya."</p>
+                <p class="text-sm opacity-80 mt-2">- Tetap semangat berlatih! -</p>
+            </div>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <div class="flex flex-wrap justify-center mb-8 bg-white rounded-lg p-2 card-shadow">
+            <button onclick="showTab('profile')" id="tab-profile" class="tab-btn px-4 py-3 rounded-lg font-semibold transition-all duration-300 bg-indigo-500 text-white text-sm">
+                👤 Data Profil
+            </button>
+            <button onclick="showTab('program')" id="tab-program" class="tab-btn px-4 py-3 rounded-lg font-semibold transition-all duration-300 text-gray-600 hover:bg-gray-100 text-sm">
+                📋 Program Latihan
+            </button>
+            <button onclick="showTab('tracking')" id="tab-tracking" class="tab-btn px-4 py-3 rounded-lg font-semibold transition-all duration-300 text-gray-600 hover:bg-gray-100 text-sm">
+                📈 Pelaksanaan
+            </button>
+            <button onclick="showTab('heartrate')" id="tab-heartrate" class="tab-btn px-4 py-3 rounded-lg font-semibold transition-all duration-300 text-gray-600 hover:bg-gray-100 text-sm">
+                💓 Denyut Nadi
+            </button>
+            <button onclick="showTab('journal')" id="tab-journal" class="tab-btn px-4 py-3 rounded-lg font-semibold transition-all duration-300 text-gray-600 hover:bg-gray-100 text-sm">
+                📊 Jurnal
+            </button>
+            <button onclick="showTab('evaluation')" id="tab-evaluation" class="tab-btn px-4 py-3 rounded-lg font-semibold transition-all duration-300 text-gray-600 hover:bg-gray-100 text-sm">
+                📋 Evaluasi
+            </button>
+        </div>
+
+        <!-- Profile Tab -->
+        <div id="profile-tab" class="tab-content fade-in">
+            <div class="bg-white rounded-xl p-8 card-shadow max-w-4xl mx-auto">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+                    <span class="text-2xl mr-2">👤</span>
+                    Data Profil Siswa
+                </h2>
+                
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Nama Lengkap</label>
+                        <input type="text" id="nama" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-indigo-500" placeholder="Masukkan nama lengkap">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Kelas</label>
+                        <select id="kelas" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-indigo-500">
+                            <option value="">Pilih Kelas</option>
+                            <option value="VII A">VII A</option>
+                            <option value="VII B">VII B</option>
+                            <option value="VII C">VII C</option>
+                            <option value="VIII A">VIII A</option>
+                            <option value="VIII B">VIII B</option>
+                            <option value="VIII C">VIII C</option>
+                            <option value="IX A">IX A</option>
+                            <option value="IX B">IX B</option>
+                            <option value="IX C">IX C</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Usia (tahun)</label>
+                        <input type="number" id="usia" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-indigo-500" placeholder="Masukkan usia" min="10" max="20" onchange="calculateMaxHR()">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Denyut Nadi Istirahat (bpm)</label>
+                        <input type="number" id="restingHR" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-indigo-500" placeholder="Denyut nadi saat bangun tidur" onchange="categorizeRestingHR()">
+                    </div>
+                </div>
+                
+                <div class="mt-6 grid md:grid-cols-2 gap-4">
+                    <div class="bg-indigo-50 p-4 rounded-lg">
+                        <h3 class="font-semibold text-indigo-800 mb-2">Denyut Nadi Maksimum</h3>
+                        <p id="maxHR" class="text-2xl font-bold text-indigo-600">-- bpm</p>
+                        <p class="text-sm text-gray-600">Rumus: 220 - usia</p>
+                    </div>
+                    
+                    <div class="bg-green-50 p-4 rounded-lg">
+                        <h3 class="font-semibold text-green-800 mb-2">Kategori Denyut Nadi Istirahat</h3>
+                        <p id="restingCategory" class="text-lg font-semibold text-green-600">--</p>
+                    </div>
+                </div>
+                
+                <button onclick="saveProfile()" class="w-full mt-6 btn-primary text-white py-3 px-6 rounded-lg font-semibold">
+                    💾 Simpan Profil
+                </button>
+            </div>
+        </div>
+
+        <!-- Program Planning Tab -->
+        <div id="program-tab" class="tab-content hidden">
+            <div class="bg-white rounded-xl p-8 card-shadow">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+                    <span class="text-2xl mr-2">📋</span>
+                    Perencanaan Program Latihan
+                </h2>
+                
+                <div class="bg-gradient-to-br from-blue-50 to-indigo-50 p-6 rounded-xl mb-6">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">📝 Input Program FITT</h3>
+                    
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Frequency (Hari Latihan)</label>
+                                <div class="grid grid-cols-2 gap-2">
+                                    <label class="flex items-center p-2 border rounded-lg hover:bg-gray-50">
+                                        <input type="checkbox" value="senin" class="program-days mr-2">
+                                        <span>Senin</span>
+                                    </label>
+                                    <label class="flex items-center p-2 border rounded-lg hover:bg-gray-50">
+                                        <input type="checkbox" value="selasa" class="program-days mr-2">
+                                        <span>Selasa</span>
+                                    </label>
+                                    <label class="flex items-center p-2 border rounded-lg hover:bg-gray-50">
+                                        <input type="checkbox" value="rabu" class="program-days mr-2">
+                                        <span>Rabu</span>
+                                    </label>
+                                    <label class="flex items-center p-2 border rounded-lg hover:bg-gray-50">
+                                        <input type="checkbox" value="kamis" class="program-days mr-2">
+                                        <span>Kamis</span>
+                                    </label>
+                                    <label class="flex items-center p-2 border rounded-lg hover:bg-gray-50">
+                                        <input type="checkbox" value="jumat" class="program-days mr-2">
+                                        <span>Jumat</span>
+                                    </label>
+                                    <label class="flex items-center p-2 border rounded-lg hover:bg-gray-50">
+                                        <input type="checkbox" value="sabtu" class="program-days mr-2">
+                                        <span>Sabtu</span>
+                                    </label>
+                                    <label class="flex items-center p-2 border rounded-lg hover:bg-gray-50">
+                                        <input type="checkbox" value="minggu" class="program-days mr-2">
+                                        <span>Minggu</span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Intensity (Intensitas)</label>
+                                <select id="programIntensity" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-indigo-500">
+                                    <option value="">Pilih intensitas</option>
+                                    <option value="ringan">Ringan (50-60% HR Max)</option>
+                                    <option value="sedang">Sedang (60-70% HR Max)</option>
+                                    <option value="berat">Berat (70-85% HR Max)</option>
+                                    <option value="sangat-berat">Sangat Berat (85-95% HR Max)</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Time (Durasi per sesi)</label>
+                                <div class="grid grid-cols-2 gap-2">
+                                    <input type="number" id="programDuration" class="px-4 py-3 border border-gray-300 rounded-lg focus:border-indigo-500" placeholder="Durasi" min="10" max="180">
+                                    <select id="programDurationUnit" class="px-4 py-3 border border-gray-300 rounded-lg focus:border-indigo-500">
+                                        <option value="menit">Menit</option>
+                                        <option value="jam">Jam</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Type (Jenis Latihan)</label>
+                                <select id="programType" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-indigo-500">
+                                    <option value="">Pilih jenis latihan</option>
+                                    <option value="kardio">Kardio (Lari, Bersepeda, Renang)</option>
+                                    <option value="kekuatan">Latihan Kekuatan (Push-up, Sit-up, Squat)</option>
+                                    <option value="fleksibilitas">Fleksibilitas (Stretching, Yoga)</option>
+                                    <option value="kombinasi">Kombinasi (Kardio + Kekuatan)</option>
+                                    <option value="olahraga-bola">Olahraga Bola (Sepak bola, Basket, Voli)</option>
+                                    <option value="olahraga-raket">Olahraga Raket (Badminton, Tenis)</option>
+                                    <option value="beladiri">Beladiri (Taekwondo, Pencak Silat)</option>
+                                    <option value="senam">Senam (Aerobik, Senam Lantai)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button onclick="saveProgramPlan()" class="w-full mt-6 btn-primary text-white py-3 px-6 rounded-lg font-semibold">
+                        💾 Simpan Program Latihan
+                    </button>
+                </div>
+                
+                <div class="bg-gradient-to-br from-green-50 to-emerald-50 p-6 rounded-xl">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">📊 Rekap Program Latihan</h3>
+                    <div id="programSummary" class="space-y-4">
+                        <p class="text-gray-500 text-center py-8">Belum ada program latihan yang disimpan.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Program Tracking Tab -->
+        <div id="tracking-tab" class="tab-content hidden">
+            <div class="bg-white rounded-xl p-8 card-shadow">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+                    <span class="text-2xl mr-2">📈</span>
+                    Pelaksanaan Program Latihan
+                </h2>
+                
+                <div class="mb-6">
+                    <button onclick="addTrackingEntry()" class="btn-primary text-white py-2 px-4 rounded-lg font-semibold">
+                        ➕ Catat Pelaksanaan
+                    </button>
+                </div>
+                
+                <div id="trackingEntries" class="space-y-4">
+                    <p class="text-gray-500 text-center py-8">Belum ada data pelaksanaan yang dicatat.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Heart Rate Tab -->
+        <div id="heartrate-tab" class="tab-content hidden">
+            <div class="bg-white rounded-xl p-8 card-shadow">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+                    <span class="text-2xl mr-2 heart-beat">💓</span>
+                    Input Denyut Nadi Istirahat
+                </h2>
+                
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="bg-gradient-to-br from-red-50 to-pink-50 p-6 rounded-xl">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4">Hitung Denyut Nadi (20 detik)</h3>
+                        
+                        <div class="text-center mb-6">
+                            <div id="timer" class="text-6xl font-bold text-red-500 mb-4">20</div>
+                            <div id="timerStatus" class="text-lg text-gray-600 mb-4">Siap untuk mulai</div>
+                            
+                            <button id="startTimer" onclick="startHeartRateTimer()" class="btn-primary text-white py-3 px-6 rounded-lg font-semibold mr-2">
+                                ▶️ Mulai Hitung
+                            </button>
+                            <button id="resetTimer" onclick="resetHeartRateTimer()" class="bg-gray-500 hover:bg-gray-600 text-white py-3 px-6 rounded-lg font-semibold">
+                                🔄 Reset
+                            </button>
+                        </div>
+                        
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Jumlah Denyut (20 detik)</label>
+                                <input type="number" id="heartCount" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-indigo-500" placeholder="Masukkan jumlah denyut">
+                            </div>
+                            
+                            <div id="heartRateResult" class="hidden bg-green-50 p-4 rounded-lg border border-green-200">
+                                <h4 class="font-bold text-green-800 mb-2">📊 Hasil Pengukuran</h4>
+                                <div class="space-y-1 text-sm">
+                                    <p><strong>Denyut per Menit:</strong> <span id="resultBPM" class="text-green-600 font-bold">-- bpm</span></p>
+                                    <p><strong>Kategori:</strong> <span id="resultCategory" class="text-green-600 font-bold">--</span></p>
+                                </div>
+                            </div>
+                            
+                            <button onclick="saveHeartRate()" class="w-full btn-primary text-white py-3 px-6 rounded-lg font-semibold">
+                                💾 Simpan Hasil
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gradient-to-br from-blue-50 to-indigo-50 p-6 rounded-xl">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4">Riwayat Denyut Nadi</h3>
+                        
+                        <div id="heartRateHistory" class="space-y-3 max-h-64 overflow-y-auto">
+                            <p class="text-gray-500 text-center py-8">Belum ada data denyut nadi yang tersimpan.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Journal Tab -->
+        <div id="journal-tab" class="tab-content hidden">
+            <div class="bg-white rounded-xl p-8 card-shadow">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+                    <span class="text-2xl mr-2">📊</span>
+                    Jurnal Aktivitas Harian
+                </h2>
+                
+                <div class="mb-6">
+                    <button onclick="addJournalEntry()" class="btn-primary text-white py-2 px-4 rounded-lg font-semibold">
+                        ➕ Tambah Entri Baru
+                    </button>
+                </div>
+                
+                <div id="journalEntries" class="space-y-4">
+                    <p class="text-gray-500 text-center py-8">Belum ada entri jurnal yang dicatat.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Evaluation Tab -->
+        <div id="evaluation-tab" class="tab-content hidden">
+            <div class="bg-white rounded-xl p-8 card-shadow">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+                    <span class="text-2xl mr-2">📋</span>
+                    Evaluasi & Saran Perkembangan
+                </h2>
+                
+                <div class="mb-6">
+                    <button onclick="generateEvaluation()" class="btn-primary text-white py-3 px-6 rounded-lg font-semibold">
+                        🔄 Generate Evaluasi Terbaru
+                    </button>
+                </div>
+                
+                <div id="evaluationContent" class="space-y-6">
+                    <div class="text-center py-12 text-gray-500">
+                        <div class="text-6xl mb-4">📊</div>
+                        <p class="text-lg">Klik "Generate Evaluasi Terbaru" untuk melihat analisis perkembangan Anda</p>
+                        <p class="text-sm mt-2">Evaluasi akan menganalisis data latihan dan denyut nadi untuk memberikan saran yang tepat</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Tracking Entry -->
+    <div id="trackingModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+        <div class="bg-white rounded-xl p-8 max-w-lg w-full mx-4 card-shadow">
+            <h3 class="text-xl font-bold text-gray-800 mb-4">Catat Pelaksanaan Program</h3>
+            
+            <div class="space-y-4">
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Tanggal</label>
+                        <input type="date" id="trackingDate" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-indigo-500">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Hari</label>
+                        <select id="trackingDay" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-indigo-500">
+                            <option value="senin">Senin</option>
+                            <option value="selasa">Selasa</option>
+                            <option value="rabu">Rabu</option>
+                            <option value="kamis">Kamis</option>
+                            <option value="jumat">Jumat</option>
+                            <option value="sabtu">Sabtu</option>
+                            <option value="minggu">Minggu</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Program Terlaksana?</label>
+                    <div class="flex gap-4">
+                        <label class="flex items-center">
+                            <input type="radio" name="programStatus" value="ya" class="mr-2">
+                            <span>✅ Ya, Terlaksana</span>
+                        </label>
+                        <label class="flex items-center">
+                            <input type="radio" name="programStatus" value="tidak" class="mr-2">
+                            <span>❌ Tidak Terlaksana</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Catatan</label>
+                    <textarea id="trackingNotes" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-indigo-500" rows="3" placeholder="Catatan pelaksanaan..."></textarea>
+                </div>
+            </div>
+            
+            <div class="flex gap-4 mt-6">
+                <button onclick="saveTrackingEntry()" class="flex-1 btn-primary text-white py-3 px-6 rounded-lg font-semibold">
+                    💾 Simpan
+                </button>
+                <button onclick="closeTrackingModal()" class="flex-1 bg-gray-500 hover:bg-gray-600 text-white py-3 px-6 rounded-lg font-semibold">
+                    ❌ Batal
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Journal Entry -->
+    <div id="journalModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+        <div class="bg-white rounded-xl p-8 max-w-md w-full mx-4 card-shadow">
+            <h3 class="text-xl font-bold text-gray-800 mb-4">Tambah Entri Jurnal</h3>
+            
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Tanggal</label>
+                    <input type="date" id="entryDate" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-indigo-500">
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Aktivitas</label>
+                    <input type="text" id="entryActivity" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-indigo-500" placeholder="Jenis aktivitas">
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Durasi (menit)</label>
+                    <input type="number" id="entryDuration" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-indigo-500" placeholder="Durasi">
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Intensitas</label>
+                    <select id="entryIntensity" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-indigo-500">
+                        <option value="rendah">Rendah</option>
+                        <option value="sedang">Sedang</option>
+                        <option value="tinggi">Tinggi</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Catatan</label>
+                    <textarea id="entryNotes" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-indigo-500" rows="3" placeholder="Catatan aktivitas..."></textarea>
+                </div>
+            </div>
+            
+            <div class="flex gap-4 mt-6">
+                <button onclick="saveJournalEntry()" class="flex-1 btn-primary text-white py-3 px-6 rounded-lg font-semibold">
+                    💾 Simpan
+                </button>
+                <button onclick="closeJournalModal()" class="flex-1 bg-gray-500 hover:bg-gray-600 text-white py-3 px-6 rounded-lg font-semibold">
+                    ❌ Batal
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize data
+        let profileData = JSON.parse(localStorage.getItem('profileData')) || {};
+        let journalData = JSON.parse(localStorage.getItem('journalData')) || [];
+        let trackingData = JSON.parse(localStorage.getItem('trackingData')) || [];
+        let heartRateData = JSON.parse(localStorage.getItem('heartRateData')) || [];
+        let programData = JSON.parse(localStorage.getItem('programData')) || {};
+        
+        // Timer variables
+        let timerInterval;
+        let timeLeft = 20;
+        let isTimerRunning = false;
+        
+        // Motivational quotes
+        const motivationalQuotes = [
+            "Kesehatan adalah kekayaan yang sesungguhnya.",
+            "Tubuh yang sehat adalah rumah bagi jiwa yang bahagia.",
+            "Olahraga adalah investasi terbaik untuk masa depan.",
+            "Setiap langkah kecil menuju kesehatan adalah kemajuan besar.",
+            "Konsistensi dalam olahraga membawa perubahan luar biasa.",
+            "Tubuh Anda mampu melakukan hal yang luar biasa, percayalah!",
+            "Hari ini adalah hari yang tepat untuk memulai hidup sehat.",
+            "Kekuatan sejati datang dari dalam diri dan tubuh yang sehat.",
+            "Jangan tunggu besok, mulai bergerak hari ini!",
+            "Setiap tetes keringat adalah bukti usaha menuju kesehatan."
+        ];
+
+        // Load saved data on page load
+        window.onload = function() {
+            loadProfile();
+            displayJournalEntries();
+            displayTrackingEntries();
+            displayHeartRateHistory();
+            updateProfileDisplay();
+            loadProgramSummary();
+            setRandomMotivationalQuote();
+            document.getElementById('entryDate').value = new Date().toISOString().split('T')[0];
+            document.getElementById('trackingDate').value = new Date().toISOString().split('T')[0];
+        };
+        
+        // Set random motivational quote
+        function setRandomMotivationalQuote() {
+            const randomIndex = Math.floor(Math.random() * motivationalQuotes.length);
+            document.getElementById('motivationalQuote').textContent = `"${motivationalQuotes[randomIndex]}"`;
+        }
+
+        // Tab functionality
+        function showTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.add('hidden');
+            });
+            
+            // Remove active class from all tab buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('bg-indigo-500', 'text-white');
+                btn.classList.add('text-gray-600', 'hover:bg-gray-100');
+            });
+            
+            // Show selected tab
+            document.getElementById(tabName + '-tab').classList.remove('hidden');
+            
+            // Add active class to selected tab button
+            document.getElementById('tab-' + tabName).classList.add('bg-indigo-500', 'text-white');
+            document.getElementById('tab-' + tabName).classList.remove('text-gray-600', 'hover:bg-gray-100');
+        }
+
+        // Calculate maximum heart rate
+        function calculateMaxHR() {
+            const usia = document.getElementById('usia').value;
+            if (usia) {
+                const maxHR = 220 - parseInt(usia);
+                document.getElementById('maxHR').textContent = maxHR + ' bpm';
+            }
+        }
+
+        // Categorize resting heart rate
+        function categorizeRestingHR() {
+            const restingHR = parseInt(document.getElementById('restingHR').value);
+            let category = '';
+            
+            if (restingHR < 60) {
+                category = 'Sangat Baik (Atlet)';
+            } else if (restingHR <= 70) {
+                category = 'Baik';
+            } else if (restingHR <= 80) {
+                category = 'Normal';
+            } else if (restingHR <= 90) {
+                category = 'Di Atas Normal';
+            } else {
+                category = 'Tinggi';
+            }
+            
+            document.getElementById('restingCategory').textContent = category;
+        }
+
+        // Update profile display in header
+        function updateProfileDisplay() {
+            const displayName = document.getElementById('displayName');
+            const displayClass = document.getElementById('displayClass');
+            const displayAge = document.getElementById('displayAge');
+            const displayRestingHR = document.getElementById('displayRestingHR');
+            const displayMaxHR = document.getElementById('displayMaxHR');
+            const profileInitials = document.getElementById('profileInitials');
+            
+            if (profileData.nama) {
+                displayName.textContent = profileData.nama;
+                displayClass.textContent = profileData.kelas || '-';
+                displayAge.textContent = `Usia: ${profileData.usia || '-'} tahun`;
+                displayRestingHR.textContent = `Denyut Istirahat: ${profileData.restingHR || '-'} bpm`;
+                displayMaxHR.textContent = `Denyut Maksimum: ${profileData.maxHR || '-'} bpm`;
+                
+                const initials = profileData.nama.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
+                profileInitials.textContent = initials;
+            } else {
+                displayName.textContent = 'Lengkapi Profil Anda';
+                displayClass.textContent = '-';
+                displayAge.textContent = 'Usia: -';
+                displayRestingHR.textContent = 'Denyut Istirahat: -';
+                displayMaxHR.textContent = 'Denyut Maksimum: -';
+                profileInitials.textContent = '?';
+            }
+        }
+
+        // Save profile data
+        function saveProfile() {
+            const nama = document.getElementById('nama').value;
+            const kelas = document.getElementById('kelas').value;
+            const usia = document.getElementById('usia').value;
+            const restingHR = document.getElementById('restingHR').value;
+            
+            if (!nama || !kelas || !usia || !restingHR) {
+                alert('Mohon lengkapi semua data profil!');
+                return;
+            }
+            
+            profileData = {
+                nama: nama,
+                kelas: kelas,
+                usia: parseInt(usia),
+                restingHR: parseInt(restingHR),
+                maxHR: 220 - parseInt(usia)
+            };
+            
+            localStorage.setItem('profileData', JSON.stringify(profileData));
+            updateProfileDisplay();
+            alert('Profil berhasil disimpan! ✅');
+        }
+
+        // Load profile data
+        function loadProfile() {
+            if (profileData.nama) {
+                document.getElementById('nama').value = profileData.nama;
+                document.getElementById('kelas').value = profileData.kelas;
+                document.getElementById('usia').value = profileData.usia;
+                document.getElementById('restingHR').value = profileData.restingHR;
+                calculateMaxHR();
+                categorizeRestingHR();
+            }
+        }
+
+        // Program Planning functionality
+        function saveProgramPlan() {
+            const intensity = document.getElementById('programIntensity').value;
+            const duration = document.getElementById('programDuration').value;
+            const durationUnit = document.getElementById('programDurationUnit').value;
+            const type = document.getElementById('programType').value;
+            
+            const programDays = Array.from(document.querySelectorAll('.program-days:checked')).map(cb => cb.value);
+            
+            if (!intensity || !duration || !type || programDays.length === 0) {
+                alert('Mohon lengkapi semua data program FITT!');
+                return;
+            }
+            
+            programData = {
+                frequency: programDays.length,
+                intensity: intensity,
+                duration: duration,
+                durationUnit: durationUnit,
+                type: type,
+                programDays: programDays,
+                createdAt: new Date().toISOString()
+            };
+            
+            localStorage.setItem('programData', JSON.stringify(programData));
+            loadProgramSummary();
+            alert('Program latihan berhasil disimpan! ✅');
+        }
+        
+        function loadProgramSummary() {
+            const container = document.getElementById('programSummary');
+            
+            if (!programData.frequency) {
+                container.innerHTML = '<p class="text-gray-500 text-center py-8">Belum ada program latihan yang disimpan.</p>';
+                return;
+            }
+            
+            const allDays = ['senin', 'selasa', 'rabu', 'kamis', 'jumat', 'sabtu', 'minggu'];
+            const dayLabels = {
+                'senin': 'Sen', 'selasa': 'Sel', 'rabu': 'Rab', 'kamis': 'Kam',
+                'jumat': 'Jum', 'sabtu': 'Sab', 'minggu': 'Min'
+            };
+            
+            let scheduleHTML = '<div class="grid grid-cols-7 gap-2 mb-4">';
+            
+            allDays.forEach(day => {
+                let dayClass = 'bg-gray-100 text-gray-500';
+                let dayIcon = '😴';
+                let dayText = 'Istirahat';
+                
+                if (programData.programDays.includes(day)) {
+                    dayClass = 'bg-green-100 text-green-800 border-green-300';
+                    dayIcon = '💪';
+                    dayText = 'Latihan';
+                }
+                
+                scheduleHTML += `
+                    <div class="text-center p-2 rounded-lg border ${dayClass}">
+                        <div class="text-xs font-semibold">${dayLabels[day]}</div>
+                        <div class="text-lg">${dayIcon}</div>
+                        <div class="text-xs">${dayText}</div>
+                    </div>
+                `;
+            });
+            
+            scheduleHTML += '</div>';
+            
+            container.innerHTML = `
+                <div class="bg-white p-4 rounded-lg border">
+                    <h4 class="font-bold text-gray-800 mb-3">📋 Program FITT</h4>
+                    
+                    <div class="grid grid-cols-2 gap-4 mb-4 text-sm">
+                        <div>
+                            <span class="font-semibold text-gray-600">Frequency:</span>
+                            <p class="text-gray-800">${programData.frequency}x per minggu</p>
+                        </div>
+                        <div>
+                            <span class="font-semibold text-gray-600">Intensity:</span>
+                            <p class="text-gray-800">${programData.intensity}</p>
+                        </div>
+                        <div>
+                            <span class="font-semibold text-gray-600">Time:</span>
+                            <p class="text-gray-800">${programData.duration} ${programData.durationUnit}</p>
+                        </div>
+                        <div>
+                            <span class="font-semibold text-gray-600">Type:</span>
+                            <p class="text-gray-800">${programData.type}</p>
+                        </div>
+                    </div>
+                    
+                    <h5 class="font-semibold text-gray-700 mb-2">📅 Jadwal Mingguan</h5>
+                    ${scheduleHTML}
+                </div>
+            `;
+        }
+
+        // Heart Rate Timer functionality
+        function startHeartRateTimer() {
+            if (isTimerRunning) return;
+            
+            isTimerRunning = true;
+            document.getElementById('startTimer').disabled = true;
+            document.getElementById('timerStatus').textContent = 'Sedang menghitung... Rasakan denyut nadi Anda!';
+            
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                document.getElementById('timer').textContent = timeLeft;
+                
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    isTimerRunning = false;
+                    document.getElementById('startTimer').disabled = false;
+                    document.getElementById('timerStatus').textContent = 'Waktu habis! Masukkan jumlah denyut yang terhitung.';
+                    
+                    // Auto focus to heart count input
+                    document.getElementById('heartCount').focus();
+                }
+            }, 1000);
+        }
+
+        function resetHeartRateTimer() {
+            clearInterval(timerInterval);
+            timeLeft = 20;
+            isTimerRunning = false;
+            document.getElementById('timer').textContent = '20';
+            document.getElementById('timerStatus').textContent = 'Siap untuk mulai';
+            document.getElementById('startTimer').disabled = false;
+            document.getElementById('heartCount').value = '';
+            document.getElementById('heartRateResult').classList.add('hidden');
+        }
+
+        // Calculate and display heart rate
+        document.getElementById('heartCount').addEventListener('input', function() {
+            const heartCount = parseInt(this.value);
+            if (heartCount && heartCount > 0) {
+                const bpm = heartCount * 3; // 20 seconds * 3 = 60 seconds (1 minute)
+                
+                let category = '';
+                if (bpm < 60) {
+                    category = 'Sangat Baik (Atlet)';
+                } else if (bpm <= 70) {
+                    category = 'Baik';
+                } else if (bpm <= 80) {
+                    category = 'Normal';
+                } else if (bpm <= 90) {
+                    category = 'Di Atas Normal';
+                } else {
+                    category = 'Tinggi';
+                }
+                
+                document.getElementById('resultBPM').textContent = bpm + ' bpm';
+                document.getElementById('resultCategory').textContent = category;
+                document.getElementById('heartRateResult').classList.remove('hidden');
+            } else {
+                document.getElementById('heartRateResult').classList.add('hidden');
+            }
+        });
+
+        // Save heart rate data
+        function saveHeartRate() {
+            const heartCount = parseInt(document.getElementById('heartCount').value);
+            if (!heartCount || heartCount <= 0) {
+                alert('Mohon masukkan jumlah denyut yang valid!');
+                return;
+            }
+            
+            const bpm = heartCount * 3;
+            let category = '';
+            if (bpm < 60) {
+                category = 'Sangat Baik (Atlet)';
+            } else if (bpm <= 70) {
+                category = 'Baik';
+            } else if (bpm <= 80) {
+                category = 'Normal';
+            } else if (bpm <= 90) {
+                category = 'Di Atas Normal';
+            } else {
+                category = 'Tinggi';
+            }
+            
+            const heartRateEntry = {
+                id: Date.now(),
+                date: new Date().toISOString().split('T')[0],
+                time: new Date().toLocaleTimeString('id-ID'),
+                heartCount: heartCount,
+                bpm: bpm,
+                category: category,
+                timestamp: new Date().toISOString()
+            };
+            
+            heartRateData.unshift(heartRateEntry);
+            localStorage.setItem('heartRateData', JSON.stringify(heartRateData));
+            
+            displayHeartRateHistory();
+            resetHeartRateTimer();
+            alert('Data denyut nadi berhasil disimpan! ✅');
+        }
+
+        // Display heart rate history
+        function displayHeartRateHistory() {
+            const container = document.getElementById('heartRateHistory');
+            
+            if (heartRateData.length === 0) {
+                container.innerHTML = '<p class="text-gray-500 text-center py-8">Belum ada data denyut nadi yang tersimpan.</p>';
+                return;
+            }
+            
+            const historyHTML = heartRateData.slice(0, 10).map(entry => `
+                <div class="bg-white p-3 rounded-lg border border-gray-200">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <p class="font-semibold text-gray-800">${entry.bpm} bpm</p>
+                            <p class="text-sm text-gray-600">${entry.category}</p>
+                        </div>
+                        <div class="text-right text-xs text-gray-500">
+                            <p>${entry.date}</p>
+                            <p>${entry.time}</p>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            
+            container.innerHTML = historyHTML;
+        }
+
+        // Tracking functionality
+        function addTrackingEntry() {
+            document.getElementById('trackingModal').classList.remove('hidden');
+            document.getElementById('trackingModal').classList.add('flex');
+        }
+
+        function closeTrackingModal() {
+            document.getElementById('trackingModal').classList.add('hidden');
+            document.getElementById('trackingModal').classList.remove('flex');
+        }
+
+        function saveTrackingEntry() {
+            const date = document.getElementById('trackingDate').value;
+            const day = document.getElementById('trackingDay').value;
+            const status = document.querySelector('input[name="programStatus"]:checked')?.value;
+            const notes = document.getElementById('trackingNotes').value;
+            
+            if (!date || !status) {
+                alert('Mohon lengkapi data yang diperlukan!');
+                return;
+            }
+            
+            const trackingEntry = {
+                id: Date.now(),
+                date: date,
+                day: day,
+                status: status,
+                notes: notes,
+                timestamp: new Date().toISOString()
+            };
+            
+            trackingData.unshift(trackingEntry);
+            localStorage.setItem('trackingData', JSON.stringify(trackingData));
+            
+            displayTrackingEntries();
+            closeTrackingModal();
+            
+            // Reset form
+            document.getElementById('trackingDate').value = new Date().toISOString().split('T')[0];
+            document.querySelector('input[name="programStatus"]:checked').checked = false;
+            document.getElementById('trackingNotes').value = '';
+            
+            alert('Data pelaksanaan berhasil disimpan! ✅');
+        }
+
+        function displayTrackingEntries() {
+            const container = document.getElementById('trackingEntries');
+            
+            if (trackingData.length === 0) {
+                container.innerHTML = '<p class="text-gray-500 text-center py-8">Belum ada data pelaksanaan yang dicatat.</p>';
+                return;
+            }
+            
+            const entriesHTML = trackingData.map(entry => `
+                <div class="bg-gradient-to-r ${entry.status === 'ya' ? 'from-green-50 to-emerald-50 border-green-200' : 'from-red-50 to-pink-50 border-red-200'} p-4 rounded-lg border">
+                    <div class="flex justify-between items-start">
+                        <div class="flex-1">
+                            <div class="flex items-center mb-2">
+                                <span class="text-2xl mr-2">${entry.status === 'ya' ? '✅' : '❌'}</span>
+                                <div>
+                                    <h4 class="font-bold text-gray-800">${entry.day.charAt(0).toUpperCase() + entry.day.slice(1)}, ${entry.date}</h4>
+                                    <p class="text-sm ${entry.status === 'ya' ? 'text-green-600' : 'text-red-600'} font-semibold">
+                                        ${entry.status === 'ya' ? 'Program Terlaksana' : 'Program Tidak Terlaksana'}
+                                    </p>
+                                </div>
+                            </div>
+                            ${entry.notes ? `<p class="text-sm text-gray-600 mt-2"><strong>Catatan:</strong> ${entry.notes}</p>` : ''}
+                        </div>
+                        <button onclick="deleteTrackingEntry(${entry.id})" class="text-red-500 hover:text-red-700 ml-4">
+                            🗑️
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+            
+            container.innerHTML = entriesHTML;
+        }
+
+        function deleteTrackingEntry(id) {
+            if (confirm('Yakin ingin menghapus data pelaksanaan ini?')) {
+                trackingData = trackingData.filter(entry => entry.id !== id);
+                localStorage.setItem('trackingData', JSON.stringify(trackingData));
+                displayTrackingEntries();
+            }
+        }
+
+        // Journal functionality
+        function addJournalEntry() {
+            document.getElementById('journalModal').classList.remove('hidden');
+            document.getElementById('journalModal').classList.add('flex');
+        }
+
+        function closeJournalModal() {
+            document.getElementById('journalModal').classList.add('hidden');
+            document.getElementById('journalModal').classList.remove('flex');
+        }
+
+        function saveJournalEntry() {
+            const date = document.getElementById('entryDate').value;
+            const activity = document.getElementById('entryActivity').value;
+            const duration = document.getElementById('entryDuration').value;
+            const intensity = document.getElementById('entryIntensity').value;
+            const notes = document.getElementById('entryNotes').value;
+            
+            if (!date || !activity || !duration) {
+                alert('Mohon lengkapi data yang diperlukan!');
+                return;
+            }
+            
+            const journalEntry = {
+                id: Date.now(),
+                date: date,
+                activity: activity,
+                duration: parseInt(duration),
+                intensity: intensity,
+                notes: notes,
+                timestamp: new Date().toISOString()
+            };
+            
+            journalData.unshift(journalEntry);
+            localStorage.setItem('journalData', JSON.stringify(journalData));
+            
+            displayJournalEntries();
+            closeJournalModal();
+            
+            // Reset form
+            document.getElementById('entryDate').value = new Date().toISOString().split('T')[0];
+            document.getElementById('entryActivity').value = '';
+            document.getElementById('entryDuration').value = '';
+            document.getElementById('entryIntensity').value = 'rendah';
+            document.getElementById('entryNotes').value = '';
+            
+            alert('Entri jurnal berhasil disimpan! ✅');
+        }
+
+        function displayJournalEntries() {
+            const container = document.getElementById('journalEntries');
+            
+            if (journalData.length === 0) {
+                container.innerHTML = '<p class="text-gray-500 text-center py-8">Belum ada entri jurnal yang dicatat.</p>';
+                return;
+            }
+            
+            const intensityColors = {
+                'rendah': 'from-blue-50 to-indigo-50 border-blue-200',
+                'sedang': 'from-yellow-50 to-orange-50 border-yellow-200',
+                'tinggi': 'from-red-50 to-pink-50 border-red-200'
+            };
+            
+            const intensityIcons = {
+                'rendah': '🚶',
+                'sedang': '🏃',
+                'tinggi': '🏃‍♂️💨'
+            };
+            
+            const entriesHTML = journalData.map(entry => `
+                <div class="bg-gradient-to-r ${intensityColors[entry.intensity]} p-4 rounded-lg border">
+                    <div class="flex justify-between items-start">
+                        <div class="flex-1">
+                            <div class="flex items-center mb-2">
+                                <span class="text-2xl mr-2">${intensityIcons[entry.intensity]}</span>
+                                <div>
+                                    <h4 class="font-bold text-gray-800">${entry.activity}</h4>
+                                    <p class="text-sm text-gray-600">${entry.date} • ${entry.duration} menit • Intensitas ${entry.intensity}</p>
+                                </div>
+                            </div>
+                            ${entry.notes ? `<p class="text-sm text-gray-600 mt-2"><strong>Catatan:</strong> ${entry.notes}</p>` : ''}
+                        </div>
+                        <button onclick="deleteJournalEntry(${entry.id})" class="text-red-500 hover:text-red-700 ml-4">
+                            🗑️
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+            
+            container.innerHTML = entriesHTML;
+        }
+
+        function deleteJournalEntry(id) {
+            if (confirm('Yakin ingin menghapus entri jurnal ini?')) {
+                journalData = journalData.filter(entry => entry.id !== id);
+                localStorage.setItem('journalData', JSON.stringify(journalData));
+                displayJournalEntries();
+            }
+        }
+
+        // Evaluation functionality
+        function generateEvaluation() {
+            const evaluationContainer = document.getElementById('evaluationContent');
+            
+            // Check if there's enough data
+            if (trackingData.length < 3 && heartRateData.length < 3 && journalData.length < 3) {
+                evaluationContainer.innerHTML = `
+                    <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-6 text-center">
+                        <div class="text-4xl mb-4">⚠️</div>
+                        <h3 class="text-lg font-bold text-yellow-800 mb-2">Data Belum Cukup untuk Evaluasi</h3>
+                        <p class="text-yellow-700 mb-4">Untuk mendapatkan evaluasi yang akurat, Anda perlu:</p>
+                        <ul class="text-left text-yellow-700 space-y-1 max-w-md mx-auto">
+                            <li>• Minimal 3 data pelaksanaan program</li>
+                            <li>• Minimal 3 pengukuran denyut nadi</li>
+                            <li>• Minimal 3 entri jurnal aktivitas</li>
+                        </ul>
+                        <p class="text-sm text-yellow-600 mt-4">Silakan lengkapi data terlebih dahulu, kemudian coba lagi.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Generate evaluation based on available data
+            let evaluationHTML = '<div class="space-y-6">';
+            
+            // Program execution analysis
+            if (trackingData.length > 0) {
+                const completedSessions = trackingData.filter(t => t.status === 'ya').length;
+                const totalSessions = trackingData.length;
+                const successRate = Math.round((completedSessions / totalSessions) * 100);
+                
+                let performanceLevel = '';
+                let performanceColor = '';
+                let suggestions = '';
+                
+                if (successRate >= 80) {
+                    performanceLevel = 'Sangat Baik';
+                    performanceColor = 'text-green-600';
+                    suggestions = 'Pertahankan konsistensi yang luar biasa! Anda bisa mulai meningkatkan intensitas atau durasi latihan.';
+                } else if (successRate >= 60) {
+                    performanceLevel = 'Baik';
+                    performanceColor = 'text-blue-600';
+                    suggestions = 'Konsistensi cukup baik. Coba identifikasi hambatan yang sering muncul dan buat strategi untuk mengatasinya.';
+                } else if (successRate >= 40) {
+                    performanceLevel = 'Cukup';
+                    performanceColor = 'text-yellow-600';
+                    suggestions = 'Perlu peningkatan konsistensi. Pertimbangkan untuk menyesuaikan program agar lebih realistis dengan jadwal Anda.';
+                } else {
+                    performanceLevel = 'Perlu Perbaikan';
+                    performanceColor = 'text-red-600';
+                    suggestions = 'Konsistensi masih rendah. Mulai dengan target yang lebih kecil dan tingkatkan secara bertahap.';
+                }
+                
+                evaluationHTML += `
+                    <div class="bg-gradient-to-br from-blue-50 to-indigo-50 p-6 rounded-xl border border-blue-200">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4">📊 Analisis Pelaksanaan Program</h3>
+                        <div class="grid md:grid-cols-2 gap-4 mb-4">
+                            <div class="bg-white p-4 rounded-lg">
+                                <h4 class="font-semibold text-gray-700 mb-2">Tingkat Keberhasilan</h4>
+                                <p class="text-3xl font-bold ${performanceColor}">${successRate}%</p>
+                                <p class="text-sm text-gray-600">${completedSessions} dari ${totalSessions} sesi</p>
+                            </div>
+                            <div class="bg-white p-4 rounded-lg">
+                                <h4 class="font-semibold text-gray-700 mb-2">Kategori Performa</h4>
+                                <p class="text-lg font-bold ${performanceColor}">${performanceLevel}</p>
+                            </div>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg">
+                            <h4 class="font-semibold text-gray-700 mb-2">💡 Saran Perbaikan</h4>
+                            <p class="text-gray-600">${suggestions}</p>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Heart rate analysis
+            if (heartRateData.length > 0) {
+                const latestHR = heartRateData[0];
+                const averageHR = Math.round(heartRateData.reduce((sum, hr) => sum + hr.bpm, 0) / heartRateData.length);
+                
+                // Trend analysis
+                let trend = 'Stabil';
+                let trendColor = 'text-blue-600';
+                let trendIcon = '➡️';
+                
+                if (heartRateData.length >= 3) {
+                    const recent = heartRateData.slice(0, 3).reduce((sum, hr) => sum + hr.bpm, 0) / 3;
+                    const older = heartRateData.slice(-3).reduce((sum, hr) => sum + hr.bpm, 0) / 3;
+                    
+                    if (recent < older - 2) {
+                        trend = 'Membaik';
+                        trendColor = 'text-green-600';
+                        trendIcon = '📈';
+                    } else if (recent > older + 2) {
+                        trend = 'Perlu Perhatian';
+                        trendColor = 'text-red-600';
+                        trendIcon = '📉';
+                    }
+                }
+                
+                evaluationHTML += `
+                    <div class="bg-gradient-to-br from-red-50 to-pink-50 p-6 rounded-xl border border-red-200">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4">💓 Analisis Denyut Nadi</h3>
+                        <div class="grid md:grid-cols-3 gap-4 mb-4">
+                            <div class="bg-white p-4 rounded-lg">
+                                <h4 class="font-semibold text-gray-700 mb-2">Denyut Terakhir</h4>
+                                <p class="text-2xl font-bold text-red-600">${latestHR.bpm} bpm</p>
+                                <p class="text-sm text-gray-600">${latestHR.category}</p>
+                            </div>
+                            <div class="bg-white p-4 rounded-lg">
+                                <h4 class="font-semibold text-gray-700 mb-2">Rata-rata</h4>
+                                <p class="text-2xl font-bold text-blue-600">${averageHR} bpm</p>
+                                <p class="text-sm text-gray-600">${heartRateData.length} pengukuran</p>
+                            </div>
+                            <div class="bg-white p-4 rounded-lg">
+                                <h4 class="font-semibold text-gray-700 mb-2">Tren</h4>
+                                <p class="text-lg font-bold ${trendColor}">${trendIcon} ${trend}</p>
+                            </div>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg">
+                            <h4 class="font-semibold text-gray-700 mb-2">💡 Interpretasi</h4>
+                            <p class="text-gray-600">
+                                ${trend === 'Membaik' ? 'Denyut nadi istirahat Anda menunjukkan perbaikan, menandakan peningkatan kebugaran kardiovaskular.' :
+                                  trend === 'Perlu Perhatian' ? 'Denyut nadi istirahat cenderung meningkat. Pastikan Anda cukup istirahat dan tidak dalam kondisi stres.' :
+                                  'Denyut nadi istirahat Anda relatif stabil. Lanjutkan program latihan untuk melihat perbaikan lebih lanjut.'}
+                            </p>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Activity analysis
+            if (journalData.length > 0) {
+                const totalDuration = journalData.reduce((sum, entry) => sum + entry.duration, 0);
+                const averageDuration = Math.round(totalDuration / journalData.length);
+                const weeklyAverage = Math.round(totalDuration / Math.max(1, Math.ceil(journalData.length / 7)));
+                
+                const intensityCount = {
+                    rendah: journalData.filter(e => e.intensity === 'rendah').length,
+                    sedang: journalData.filter(e => e.intensity === 'sedang').length,
+                    tinggi: journalData.filter(e => e.intensity === 'tinggi').length
+                };
+                
+                evaluationHTML += `
+                    <div class="bg-gradient-to-br from-green-50 to-emerald-50 p-6 rounded-xl border border-green-200">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4">📊 Analisis Aktivitas Harian</h3>
+                        <div class="grid md:grid-cols-3 gap-4 mb-4">
+                            <div class="bg-white p-4 rounded-lg">
+                                <h4 class="font-semibold text-gray-700 mb-2">Total Aktivitas</h4>
+                                <p class="text-2xl font-bold text-green-600">${journalData.length}</p>
+                                <p class="text-sm text-gray-600">sesi tercatat</p>
+                            </div>
+                            <div class="bg-white p-4 rounded-lg">
+                                <h4 class="font-semibold text-gray-700 mb-2">Rata-rata Durasi</h4>
+                                <p class="text-2xl font-bold text-blue-600">${averageDuration}</p>
+                                <p class="text-sm text-gray-600">menit per sesi</p>
+                            </div>
+                            <div class="bg-white p-4 rounded-lg">
+                                <h4 class="font-semibold text-gray-700 mb-2">Per Minggu</h4>
+                                <p class="text-2xl font-bold text-purple-600">${weeklyAverage}</p>
+                                <p class="text-sm text-gray-600">menit rata-rata</p>
+                            </div>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg">
+                            <h4 class="font-semibold text-gray-700 mb-2">Distribusi Intensitas</h4>
+                            <div class="grid grid-cols-3 gap-2 text-sm">
+                                <div class="text-center p-2 bg-blue-50 rounded">
+                                    <p class="font-bold text-blue-600">${intensityCount.rendah}</p>
+                                    <p class="text-blue-600">Rendah</p>
+                                </div>
+                                <div class="text-center p-2 bg-yellow-50 rounded">
+                                    <p class="font-bold text-yellow-600">${intensityCount.sedang}</p>
+                                    <p class="text-yellow-600">Sedang</p>
+                                </div>
+                                <div class="text-center p-2 bg-red-50 rounded">
+                                    <p class="font-bold text-red-600">${intensityCount.tinggi}</p>
+                                    <p class="text-red-600">Tinggi</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Overall evaluation and recommendations
+            let overallScore = 0;
+            let recommendations = [];
+            
+            if (trackingData.length > 0) {
+                const successRate = (trackingData.filter(t => t.status === 'ya').length / trackingData.length) * 100;
+                overallScore += successRate * 0.4; // 40% weight
+                
+                if (successRate < 60) {
+                    recommendations.push('Tingkatkan konsistensi pelaksanaan program latihan');
+                }
+            }
+            
+            if (heartRateData.length > 0) {
+                const latestHR = heartRateData[0].bpm;
+                let hrScore = 0;
+                if (latestHR < 60) hrScore = 100;
+                else if (latestHR <= 70) hrScore = 85;
+                else if (latestHR <= 80) hrScore = 70;
+                else if (latestHR <= 90) hrScore = 55;
+                else hrScore = 40;
+                
+                overallScore += hrScore * 0.3; // 30% weight
+                
+                if (latestHR > 80) {
+                    recommendations.push('Fokus pada latihan kardio untuk menurunkan denyut nadi istirahat');
+                }
+            }
+            
+            if (journalData.length > 0) {
+                const weeklyDuration = journalData.reduce((sum, entry) => sum + entry.duration, 0) / Math.max(1, Math.ceil(journalData.length / 7));
+                let activityScore = Math.min(100, (weeklyDuration / 150) * 100); // WHO recommendation: 150 min/week
+                
+                overallScore += activityScore * 0.3; // 30% weight
+                
+                if (weeklyDuration < 150) {
+                    recommendations.push('Tingkatkan durasi aktivitas fisik mingguan menjadi minimal 150 menit');
+                }
+            }
+            
+            overallScore = Math.round(overallScore);
+            
+            let overallGrade = '';
+            let gradeColor = '';
+            if (overallScore >= 85) {
+                overallGrade = 'A - Sangat Baik';
+                gradeColor = 'text-green-600';
+            } else if (overallScore >= 70) {
+                overallGrade = 'B - Baik';
+                gradeColor = 'text-blue-600';
+            } else if (overallScore >= 55) {
+                overallGrade = 'C - Cukup';
+                gradeColor = 'text-yellow-600';
+            } else {
+                overallGrade = 'D - Perlu Perbaikan';
+                gradeColor = 'text-red-600';
+            }
+            
+            if (recommendations.length === 0) {
+                recommendations.push('Pertahankan program latihan yang sudah baik dan tingkatkan secara bertahap');
+            }
+            
+            evaluationHTML += `
+                <div class="bg-gradient-to-br from-purple-50 to-indigo-50 p-6 rounded-xl border border-purple-200">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">🎯 Evaluasi Keseluruhan</h3>
+                    <div class="grid md:grid-cols-2 gap-4 mb-4">
+                        <div class="bg-white p-4 rounded-lg text-center">
+                            <h4 class="font-semibold text-gray-700 mb-2">Skor Keseluruhan</h4>
+                            <p class="text-4xl font-bold ${gradeColor}">${overallScore}</p>
+                            <p class="text-lg font-semibold ${gradeColor}">${overallGrade}</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg">
+                            <h4 class="font-semibold text-gray-700 mb-2">🎯 Rekomendasi Utama</h4>
+                            <ul class="text-sm text-gray-600 space-y-1">
+                                ${recommendations.map(rec => `<li>• ${rec}</li>`).join('')}
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="bg-white p-4 rounded-lg">
+                        <h4 class="font-semibold text-gray-700 mb-2">📅 Langkah Selanjutnya</h4>
+                        <p class="text-gray-600 mb-2">Berdasarkan evaluasi ini, disarankan untuk:</p>
+                        <ol class="text-sm text-gray-600 space-y-1 list-decimal list-inside">
+                            <li>Diskusikan hasil evaluasi dengan guru PJOK</li>
+                            <li>Sesuaikan program latihan berdasarkan rekomendasi</li>
+                            <li>Lakukan evaluasi ulang setelah 2-4 minggu</li>
+                            <li>Pertahankan pencatatan yang konsisten</li>
+                        </ol>
+                    </div>
+                </div>
+            `;
+            
+            evaluationHTML += '</div>';
+            evaluationContainer.innerHTML = evaluationHTML;
+        }
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'988fe21eb5987e32',t:'MTc1OTUzMDYxOS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
